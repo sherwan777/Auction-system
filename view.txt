@@ -1,0 +1,28 @@
+void view()
+
+{
+	printf("\t\t\t+Products on Sale+\n\n");
+	
+	FILE *auctionlisting = fopen("Auctionlisting.txt","r");
+	FILE *SPRICE = fopen("Sprice.txt","r");
+		
+	char productsname[100];
+	char prices[10];
+		printf("\n\t\t=================================\n");
+	printf("\t\t%s%20s%10s\n","ID","Product Name","Prices($)");
+		printf("\t\t=================================\n");
+		
+	while(fscanf(SPRICE , "%s" , &prices)  != EOF)
+	{
+	     fgets(productsname,100,auctionlisting);
+	     //fgets(prices,10,SPRICE);
+		printf("\t\t%s\t\t%30s\n",productsname,prices);
+		printf("\t\t--------------------------------\n");
+	}
+	fclose(auctionlisting);
+	fclose(SPRICE);
+	
+	
+	
+}
+	

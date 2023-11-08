@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct address{
+	char h_no[10];
+	char Sname [10];
+	char area [20];
+	char city [20];
+}x;
+
+
+void checkout()
+{
+	char choice[5];
+	int sum = 0;
+	long long int card;
+	int productnumber;
+	int productprice;
+	int C_bid;
+	
+	FILE *ptr1 = fopen("customer bid.txt","r");
+	if(ptr1 == NULL)
+	{
+		printf("Error opening the file!");
+		exit(0);
+	}
+	while((fscanf(ptr1 , "%d" , &C_bid)) != EOF)
+	{
+		sum = sum + C_bid;
+	};
+	fclose(ptr1);
+	
+	ptr1 = fopen("customer bid.txt","r");
+	FILE *fptr = fopen("customer product.txt","r");
+	if(fptr == NULL)
+	{
+		printf("Error opening the file!");
+	}
+	printf("\n\t\t=================================\n");
+	printf("\n\t\tProduct ID#\t\tPrice($) \n");
+	printf("\n\t\t=================================\n");
+	while((fscanf(fptr , " %d" , &productnumber))!=EOF && (fscanf(ptr1, " %d" , &productprice))!=EOF )
+	{
+
+	 printf("\t\t%d\t\t\t%d\n",productnumber,productprice);
+	printf("\t\t--------------------------------\n");
+	};
+	fclose(fptr);
+	fclose(ptr1);
+	
+	printf("-->This is your TOTAL amount bidded : %d<--\n",sum);
+	
+	remove("customer bid.txt");
+	remove("customer product.txt");
+	
+	printf("Please enter your address = \n");
+	printf("House number : ");
+	gets(x.h_no);
+	printf("\nStreet name : ");
+	gets(x.Sname);
+	printf("\nArea : ");
+	gets(x.area);
+	printf("\nCity : ");
+	gets(x.city);
+	
+	
+	printf("\nWill you pay from card or cash : ");
+	scanf("%s",choice);
+	
+	if(strcmp(choice ,"cash") == 0)
+	{
+		printf("\nWe will home deliver you your product in the following week.\n");
+		getch();
+		exit(0);	
+	}
+	else if(strcmp(choice ,"card") == 0)
+	{
+		printf("\nPlease enter your card number : ");
+		scanf("%lld",&card);
+		printf("We will get back to you after confirming your card number... Thankyou for being patient.\n");
+		getch();
+		exit(0);
+	}
+}
+
+
+

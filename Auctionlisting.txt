@@ -1,0 +1,10 @@
+1001	Cannon camera     
+1002	Ps5     
+1003	Monitor      
+1004	Keyboard
+1005	Mouse
+1006	Graphics Card
+1007	CPU
+1008	E-net wire
+1009	LCD TV
+1010	Speakers    	

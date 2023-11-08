@@ -1,0 +1,47 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include "bidfunction.txt"
+#include "view.txt"
+#include "checkout.txt"
+
+
+
+
+void auction()
+{
+	char choice [20];
+	FILE *ptr;
+	int i = 0;
+    system("color f9");
+
+    printf("\nPlease make a selection from the following:\n");
+
+    
+    while(1)
+    {
+    	printf("\nView product list [view]\nBid on products available for auction [bid]\nClose Auctions(Check-Out) [close]\n");
+    	scanf("%s", &choice);
+		fflush(stdin);
+	// if VIEW is chosen
+	    if (strcmp(choice ,"view") == 0) 
+		{
+			view();
+	    }
+	// if BID is chosen
+	    else if (strcmp(choice,"bid") == 0) 
+		{
+			bidfunction();
+	    }
+	    // if close is chosen.
+	    else if (strcmp(choice, "close") == 0)
+		{
+			checkout();
+	    }
+	    else{
+	        printf("\nPlease choose either view, bid, or close.\n");
+	    }
+	}
+    
+
+}

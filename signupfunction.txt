@@ -1,0 +1,214 @@
+#include <stdio.h>
+#include <string.h>
+#include <windows.h>
+
+
+void password(char enterpass[]);
+void verifypassword(char enterpass[], char enterpass2[]);
+void displayinformation(char username[],char firstname[],char lastname[],char enterpass[],int date,char line,int month,int year);
+void auctionlist();
+
+
+
+
+void signupfunction()
+{
+	char enterpass[30],username[60],enterpass2[30],firstname[60],lastname[60],viewlistings;
+	char line,val;
+	int date,month,year;
+	int screenselect,i,screenselect2;
+	
+
+/*=== HERE user is asked to SIGNUP by input their username,first and last name, password,and DOB===*/		
+
+	signup:
+	printf("Enter your Username: ");
+	scanf(" %s",username);
+	fflush(stdin);
+	int checkval=verifyusernamesignup(username);
+	if(checkval==-1)
+	{
+		printf("Username Exsist, Please enter again!");
+		goto signup;
+		
+	}
+	
+	
+	printf("Enter your First Name: ");
+	gets(firstname);
+	
+	printf("Enter your Last Name: ");
+	gets(lastname);
+	
+	printf("Enter your password: ");
+	password(enterpass);
+	
+	//puts(enterpass);
+	
+	printf("Confirm Password: ");
+	verifypassword(enterpass,enterpass2);
+	
+	printf("\n\nEnter your DOB dd/mm/yyyy: ");
+/*============================================================================================*/		
+
+	
+	
+/*===Here we are entering the DOB of the user, and checking if the format is matched===*/	
+do {
+scanf("%d %c %d %c %d",&date, &line, &month, &line, &year);
+  if((date>0 && date<=31) && (month>0 && month<=12) ) 
+	printf("Entered Date is correct.");
+else{
+	printf("Incorrect Date . Try Again!!\n\n");
+   }
+ }while((date<0 || date>31) || (month<0 || month>12));
+/*============================================================================================*/
+
+/*===Here We created a fule where all the information entered is stored===*/	
+	
+	FILE *fptr = fopen("userdetails.txt","a");
+		fprintf(fptr,"\n\nUsername:%s\nFirst-Name:%s\nLast-Name:%s\nPassword:%s\nDOB:%02d%c%02d%c%d",username,firstname,lastname,enterpass,date,line,month,line,year);
+	fclose(fptr);
+	
+	FILE *fptr2 = fopen("usernames.txt","a");
+		fprintf(fptr2,"%s\n",username);
+	fclose(fptr2);
+	
+	FILE *fptr3 = fopen("passwords.txt","a");
+		fprintf(fptr2,"%s\n",enterpass);
+	fclose(fptr2);
+/*========================================================================================================================================================================*/
+
+
+
+/*Here we are displaying all the information enetered by the USER*/
+	Sleep(1000);
+	printf("\n\n---You are sucessfully signed up!---\n");
+	Sleep(1000);                                //sleep(1 second == 1000 milliseconds) DELAYS your message
+	displayinformation(username,firstname,lastname,enterpass,date, line, month,year);
+	Beep(913,901);								//Beep(Frequency(Hz),Duration(millisecond))
+	Sleep(1000);
+	system("cls");
+	printf("Loading.......");
+	Sleep(1000);
+	system("cls");
+/*=====================================================================================================================*/
+
+
+}
+
+
+
+
+
+
+
+void password(char enterpass[])
+{
+	
+	do 
+		{
+			gets(enterpass);
+			if((strlen(enterpass)<6))
+			printf("Password Length needs to be alleast 6 Characters!! \nPlease Re-Enter your Password: ");
+		}while((strlen(enterpass)<6));
+	}
+
+void verifypassword(char enterpass[], char enterpass2[])
+{
+	
+	do 
+		{
+			gets(enterpass2);
+			
+		
+		if(strcmp(enterpass,enterpass2)==0)
+		{
+			Beep(523,500);
+			printf("\n\tPassword is Correct!");
+			break;
+		}
+		
+		
+		else
+		{
+			printf("Password Does not match your previous password.");
+			printf("Re-Enter: ");
+		}
+		
+		
+		}while(strcmp(enterpass,enterpass2)!=0);
+			
+			
+		
+	}
+
+void displayinformation(char username[],char firstname[],char lastname[],char enterpass[],int date,char line,int month,int year)
+{
+	int i;
+	
+	printf("\tUsername: ");
+	puts(username);
+	
+	printf("\tFirst name: ");
+	puts(firstname);
+	
+	printf("\tLast name: ");
+	puts(lastname);
+	
+	
+	printf("\tPassword: ");
+	for(i=0;i<strlen(enterpass);i++)
+	printf("*");
+	
+	printf("\n\tDate Of Birth: ");
+	printf("%02d%c%02d%c%d",date, line,month,line,year);
+}
+
+	
+
+
+
+
+int verifyusernamesignup(char username[])
+{
+	
+	int i,flag=1,result;
+	char verifyarray[500];
+	
+	FILE *fptr = fopen("usernames.txt","r");
+
+while(feof(fptr)==0)
+{
+     
+   //fgets(verifyarray,maxlen+1,fptr); //(for fgets the second argument basically means, it will only scan up to that many letters(+1 is for '\0')  and then compare it with username array passed. if that maxlen was to not match, then the system will count those blankspaces and compare those blankspaces with your username and give you a false value.
+     fscanf(fptr,"%s",verifyarray);
+	//puts(verifyarray);
+	//puts(username);
+	result = strcmp(verifyarray,username);
+	if(result==0)
+	{
+	
+	  return -1;
+	}
+    
+    else{
+    	return 1;
+	}
+	
+}
+
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+

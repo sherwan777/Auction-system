@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+int renamefile () 
+{
+   int ret;
+   char oldname[] = "tempfile.txt";
+   char newname[] = "Sprice.txt";
+   
+   ret = rename(oldname, newname);
+	
+   if(ret == 0) {
+      printf("\nFile renamed successfully");
+   } else {
+      printf("\nError: unable to rename the file");
+   }
+   
+   return(0);
+}

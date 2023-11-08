@@ -1,0 +1,162 @@
+#include <stdio.h>
+#include <string.h>
+#include<stdlib.h>
+#
+
+int verifyloginusername(char username[],int maxlen,int *);
+int verifyloginpassword(char password[],int maxlen2,int *);
+
+int loginfunction()
+{
+	int checkval,checkval2,maxlen,maxlen2;
+	static counter=0;
+	int triesp=3,triesu=3;
+	
+	
+	char username[21];
+	char password[60];
+	
+	login:
+	printf("Enter your username: ");
+	scanf(" %s",username);
+	maxlen = strlen(username);
+	checkval = verifyloginusername(username,maxlen,&counter);
+	
+if(checkval!=0)
+{
+printf("Username Does not Exsist Please try again:\tTries:%d\n",triesu);
+triesu--;
+if(triesu>=0)
+goto login;
+if(triesu<0)
+{
+printf("\nRe-directing to Sign-up Page!!!\n");
+Sleep(1000);
+system("cls");
+}
+}
+
+if(checkval==0)
+{
+	printf("Username exist");
+	//printf("%d",counter);IGNORE
+	reenterpassword:
+	printf("\n\nEnter your Password: ");
+	scanf(" %s",password);
+	maxlen2=strlen(password);
+	checkval2= verifyloginpassword(password,maxlen2,&counter);
+	
+	if(checkval2!=0)
+	{
+	
+	printf("Wrong Password Re-enter\tTries:%d\n",triesp);
+	triesp--;
+	if(triesp>=0)
+	{
+		goto reenterpassword;
+	}
+	
+	if(triesp<0)
+	{
+		printf("going to Signup page");
+	}
+	
+	
+	}	
+	
+	if(checkval2==0){
+	
+	printf("password enetered is correct");
+	return 0;
+}
+
+}
+
+
+return 1;
+}
+
+
+int verifyloginusername(char username[],int maxlen,int *counter)
+{
+
+	int i,flag=1,result;
+	char verifyarray[500];
+	
+	FILE *fptr = fopen("usernames.txt","r");
+
+while(feof(fptr)==0)
+{
+     
+   //fgets(verifyarray,maxlen+1,fptr); //(for fgets the second argument basically means, it will only scan up to that many letters(+1 is for '\0')  and then compare it with username array passed. if that maxlen was to not match, then the system will count those blankspaces and compare those blankspaces with your username and give you a false value.
+     fscanf(fptr,"%s",verifyarray);
+	//puts(verifyarray);
+	//puts(username);
+	result = strcmp(verifyarray,username);
+	if(result==0)
+	{
+	
+	  flag = 0;
+	  break;
+	}
+    *counter = (*counter +1);
+}
+
+fclose(fptr);
+
+if(flag == 0)
+return 0;
+
+if(flag == 1)
+return -1;
+
+
+}
+	
+
+
+
+int verifyloginpassword(char password[],int maxlen2,int *counter)
+{
+	int i=0,flag=1,result,justVAL;
+	char verifyarray[500];
+	
+	FILE *fptr2 = fopen("passwords.txt","r");
+
+		justVAL = * counter;
+		//printf("%d",justVAL);IGNORE
+
+while(feof(fptr2)==0) //telling us to loop this until END OF FILE
+
+{
+	
+	//fgets(verifyarray,maxlen2+1,fptr2); //(for fgets the second argument basically means, it will only scan up to that many letters(+1 is for '\0')  and then compare it with username array passed. if that maxlen was to not match, then the system will count those blankspaces and compare those blankspaces with your username and give you a false value.
+	  //first arugment is telling where it will store once data is retrieved // s3rd argumen tis telling from where to get that data
+	  fscanf(fptr2,"%s",verifyarray);
+	  if(i==(justVAL))
+	  {
+	  
+		//puts(verifyarray);IGNORE
+		//puts(password);IGNORE
+		result = strcmp(verifyarray,password);
+		if(result==0)
+		{
+		  flag = 0;
+		  break;
+		}
+	
+    }
+  i++;
+	
+	
+    	
+}
+
+	fclose(fptr2);
+	
+	if(flag == 0)
+return 0;
+
+if(flag == 1)
+return -1;
+}
